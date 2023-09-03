@@ -1,3 +1,9 @@
+# Author = khode_alishon
+# data validator for dental files
+# 
+# *** check test.py ***
+
+
 from tkinter import *
 import tkinter
 from tkinter import ttk
