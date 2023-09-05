@@ -11,34 +11,61 @@ number_of_errors = 1
 
 ###################################################
 
-top = Tk()
-top.config(bg = "black")
-top.columnconfigure(0, weigh = 1)
-top.columnconfigure(1, weigh = 1)
-top.columnconfigure(2, weigh = 1)
-top.rowconfigure(0, weight = 1)
+validindow = Tk()
+validindow.config(bg = "black")
+validindow.columnconfigure(0, weigh = 1)
+
+validindow.rowconfigure(0, weight = 1)
+validindow.geometry("1331x600")
+
+main_frame = Frame(validindow, bg="#343840")
+main_frame.pack(fill=BOTH, expand=1)
+
+my_canvas = Canvas(main_frame, bg="#343840")
+my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+my_scrollbar = ttk.Scrollbar(
+    main_frame, orient=VERTICAL, command=my_canvas.yview)
+my_scrollbar.pack(side=RIGHT, fill=Y)
+
+my_canvas.configure(yscrollcommand=my_scrollbar.set, bg="#343840")
+my_canvas.bind("<Configure>", lambda e: my_canvas.configure(
+    scrollregion=my_canvas.bbox("all")))
+
+top = Frame(my_canvas, bg="#343840")
+
+my_canvas.create_window((0, 0), window=top, anchor="nw")
+
+
 
 
 ##################################################
 
-row_label = Label(top, text="ردیف", font="Btitr 18", bg="#343840", fg="#bbbcbd")
-row_label.grid(row=0, column=2, sticky=NSEW)
+row_label = Label(top, text="ردیف", font="Btitr 18", bg="#343840", fg="#bbbcbd", width=5)
+row_label.grid(row=0, column=7, sticky=NSEW)
 
-name_label = Label(top,text="نام بیمه شده", font="Btitr 18",bg="#343840", fg="#bbbcbd")
-name_label.grid(row=0, column=1, sticky=NSEW)
+personel_label = Label(top,text="کد پرسنلی", font="Btitr 18",bg="#343840", fg="#bbbcbd", width = 6)
+personel_label.grid(row=0, column=6, sticky=NSEW)
 
-error_label = Label(top,text="پیغام خطا", font="Btitr 18",bg="#343840", fg="#bbbcbd")
+name_label = Label(top,text="نام بیمه شده", font="Btitr 18",bg="#343840", fg="#bbbcbd", width = 20)
+name_label.grid(row=0, column=5, sticky=NSEW)
+
+ezhari_label = Label(top,text="مبلغ اظهاری", font="Btitr 18",bg="#343840", fg="#bbbcbd", width = 7)
+ezhari_label.grid(row=0, column=4, sticky=NSEW)
+
+taeedi_label = Label(top,text="مبلغ تاییدی", font="Btitr 18",bg="#343840", fg="#bbbcbd", width = 7)
+taeedi_label.grid(row=0, column=3, sticky=NSEW)
+
+pardakhty_label = Label(top,text="مبلغ پرداختی", font="Btitr 18",bg="#343840", fg="#bbbcbd", width=8)
+pardakhty_label.grid(row=0, column=2, sticky=NSEW)
+
+khesarat_label = Label(top,text="نوع هزینه‌ی ریز بیماری", font="Btitr 18",bg="#343840", fg="#bbbcbd", width = 20)
+khesarat_label.grid(row=0, column=1, sticky=NSEW)
+
+error_label = Label(top,text="پیغام خطا", font="Btitr 18",bg="#343840", fg="#bbbcbd", width=16)
 error_label.grid(row=0, column=0, sticky=NSEW)
 
 objects = []
-
-
-
-
-
-
-# HERE.
-# doing Sefr() and other classes for analyzing and showing data that's problematic
 
 
 class Sefr():
@@ -47,33 +74,82 @@ class Sefr():
         self.radif = obj[0]
         self.index = self.radif-1
         self.full_name = f"{obj[2]} {obj[3]}"
+        
+        self.personel = obj[1]
+        self.ezhari = obj[7]
+        self.taeedi = obj[8]
+        self.pardakhty = obj[9]
+        self.khesarat = obj[6]
 
-        self.radif_label = Label(top,border=1, borderwidth=1, text=f"{self.radif}", font="calibri 12 bold", bg="#ff0000", fg="white")
-        self.radif_label.grid(row=number_of_errors, column=2, sticky=NSEW)
+        self.radif_label = Label(top, text=f"{self.radif}", font="calibri 12 bold", bg = "#f24432", fg = "black")
+        self.radif_label.grid(row=number_of_errors, column=7, sticky=NSEW)
 
-        self.full_name_label = Label(top,border=1, borderwidth=1, text=f"{self.full_name}", font="calibri 12 bold", bg="#ff0000", fg="white")
-        self.full_name_label.grid(row=number_of_errors, column=1, sticky=NSEW)
+        self.personel_label = Label(top, text=f"{self.personel}", font="calibri 12 bold", bg = "#f24432", fg = "black")
+        self.personel_label.grid(row=number_of_errors, column=6, sticky=NSEW)
 
-        self.error_label = Label(top,border=1, borderwidth=1, text="مبلغ قابل پرداخت خسات صفر می‌باشد", font="calibri 12 bold", bg="#ff0000", fg="white")
+        self.full_name_label = Label(top, text=f"{self.full_name}", font="calibri 12 bold", bg = "#f24432", fg = "black")
+        self.full_name_label.grid(row=number_of_errors, column=5, sticky=NSEW)
+
+        self.ezhari_label = Label(top, text=self.ezhari, font="calibri 12 bold", bg = "#f24432", fg = "black")
+        self.ezhari_label.grid(row=number_of_errors, column=4, sticky=NSEW)
+
+        self.taeedi_label = Label(top, text=self.taeedi, font="calibri 12 bold", bg = "#f24432", fg = "black")
+        self.taeedi_label.grid(row=number_of_errors, column=3, sticky=NSEW)
+
+        self.pardakhty_label = Label(top, text=self.pardakhty, font="calibri 12 bold", bg = "#f24432", fg = "black")
+        self.pardakhty_label.grid(row=number_of_errors, column=2, sticky=NSEW)
+
+        self.khesarat_label = Label(top, text=self.khesarat, font="calibri 12 bold", bg = "#f24432", fg = "black")
+        self.khesarat_label.grid(row=number_of_errors, column=1, sticky=NSEW)
+
+        self.error_label = Label(top, text="مبلغ قابل پرداخت خسات صفر می‌باشد", font="calibri 12 bold", bg = "#f24432", fg = "black")
         self.error_label.grid(row=number_of_errors, column=0, sticky=NSEW)
+
+        
+        
+
         number_of_errors += 1
 
 
 class KamPardakhtShode():
     def __init__(self, obj):
         global number_of_errors
+        
         self.radif = obj[0]
         self.index = self.radif-1
         self.full_name = f"{obj[2]} {obj[3]}"
 
-        self.radif_label = Label(top, text=f"{self.radif}", font="calibri 12 bold", bg="#ffd712", fg="white")
-        self.radif_label.grid(row=number_of_errors, column=2, sticky=NSEW)
+        self.personel = obj[1]
+        self.ezhari = obj[7]
+        self.taeedi = obj[8]
+        self.pardakhty = obj[9]
+        self.khesarat = obj[6]
 
-        self.full_name_label = Label(top, text=f"{self.full_name}", font="calibri 12 bold", bg="#ffd712", fg="white")
-        self.full_name_label.grid(row=number_of_errors, column=1, sticky=NSEW)
+        self.radif_label = Label(top, text=f"{self.radif}", font="calibri 12 bold", bg="#ffd712", fg = "black")
+        self.radif_label.grid(row=number_of_errors, column=7, sticky=NSEW)
 
-        self.error_label = Label(top, text="کم پرداخت شده", font="calibri 12 bold", bg="#ffd712", fg="white")
+        self.personel_label = Label(top, text=f"{self.personel}", font="calibri 12 bold", bg="#ffd712", fg = "black")
+        self.personel_label.grid(row=number_of_errors, column=6, sticky=NSEW)
+
+        self.full_name_label = Label(top, text=f"{self.full_name}", font="calibri 12 bold", bg="#ffd712", fg = "black")
+        self.full_name_label.grid(row=number_of_errors, column=5, sticky=NSEW)
+
+        self.ezhari_label = Label(top, text=self.ezhari, font="calibri 12 bold", bg="#ffd712", fg = "black")
+        self.ezhari_label.grid(row=number_of_errors, column=4, sticky=NSEW)
+
+        self.taeedi_label = Label(top, text=self.taeedi, font="calibri 12 bold", bg="#ffd712", fg = "black")
+        self.taeedi_label.grid(row=number_of_errors, column=3, sticky=NSEW)
+
+        self.pardakhty_label = Label(top, text=self.pardakhty, font="calibri 12 bold", bg="#ffd712", fg = "black")
+        self.pardakhty_label.grid(row=number_of_errors, column=2, sticky=NSEW)
+
+        self.khesarat_label = Label(top, text=self.khesarat, font="calibri 12 bold", bg="#ffd712", fg = "black")
+        self.khesarat_label.grid(row=number_of_errors, column=1, sticky=NSEW)
+
+        self.error_label = Label(top, text="کم پرداخت شده", font="calibri 12 bold", bg="#ffd712", fg = "black")
         self.error_label.grid(row=number_of_errors, column=0, sticky=NSEW)
+
+
         number_of_errors += 1
 
 
@@ -84,14 +160,37 @@ class KamTaeedShode():
         self.index = self.radif-1
         self.full_name = f"{obj[2]} {obj[3]}"
 
-        self.radif_label = Label(top, text=f"{self.radif}", font="calibri 12 bold", bg="#3ba9c2", fg="white")
-        self.radif_label.grid(row=number_of_errors, column=2, sticky=NSEW)
+        self.personel = obj[1]
+        self.ezhari = obj[7]
+        self.taeedi = obj[8]
+        self.pardakhty = obj[9]
+        self.khesarat = obj[6]
 
-        self.full_name_label = Label(top, text=f"{self.full_name}", font="calibri 12 bold", bg="#3ba9c2", fg="white")
-        self.full_name_label.grid(row=number_of_errors, column=1, sticky=NSEW)
+        self.radif_label = Label(top, text=f"{self.radif}", font="calibri 12 bold", bg="#3ba9c2", fg = "black")
+        self.radif_label.grid(row=number_of_errors, column=7, sticky=NSEW)
 
-        self.error_label = Label(top, text="کم تایید شده", font="calibri 12 bold", bg="#3ba9c2", fg="white")
+        self.personel_label = Label(top, text=f"{self.personel}", font="calibri 12 bold", bg="#3ba9c2", fg = "black")
+        self.personel_label.grid(row=number_of_errors, column=6, sticky=NSEW)
+
+        self.full_name_label = Label(top, text=f"{self.full_name}", font="calibri 12 bold", bg="#3ba9c2", fg = "black")
+        self.full_name_label.grid(row=number_of_errors, column=5, sticky=NSEW)
+
+        self.ezhari_label = Label(top, text=self.ezhari, font="calibri 12 bold", bg="#3ba9c2", fg = "black")
+        self.ezhari_label.grid(row=number_of_errors, column=4, sticky=NSEW)
+
+        self.taeedi_label = Label(top, text=self.taeedi, font="calibri 12 bold", bg="#3ba9c2", fg = "black")
+        self.taeedi_label.grid(row=number_of_errors, column=3, sticky=NSEW)
+
+        self.pardakhty_label = Label(top, text=self.pardakhty, font="calibri 12 bold", bg="#3ba9c2", fg = "black")
+        self.pardakhty_label.grid(row=number_of_errors, column=2, sticky=NSEW)
+
+        self.khesarat_label = Label(top, text=self.khesarat, font="calibri 12 bold", bg="#3ba9c2", fg = "black")
+        self.khesarat_label.grid(row=number_of_errors, column=1, sticky=NSEW)
+
+        self.error_label = Label(top, text="کم تایید شده", font="calibri 12 bold", bg="#3ba9c2", fg = "black")
         self.error_label.grid(row=number_of_errors, column=0, sticky=NSEW)
+
+
         number_of_errors += 1
 
 
@@ -145,6 +244,8 @@ for radif, eelami, taeedi, pardakhty in zip(list_radif, list_eelami, list_morede
         KamTaeedShode(this)
 
 for i in range(number_of_errors):
-    top.rowconfigure(i, weight=1)
+    top.rowconfigure(i, weight=i)
 
-top.mainloop()
+
+
+validindow.mainloop()
