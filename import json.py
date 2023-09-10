@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import *
 root = tk.Tk()
 
-l1 = Label(root, text="This", borderwidth=2, relief="groove", bg = "red")
-l1.pack()
+a = "hey" if 1 < 0 else ""
 
-root.mainloop()
+print(a)
